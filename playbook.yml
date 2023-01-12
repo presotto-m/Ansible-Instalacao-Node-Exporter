@@ -1,17 +1,17 @@
 ---
-- name: Install Node Exporter
+- name: Instalar Node Exporter
   hosts: servidores
   become: true
   become_user: root
 
   tasks:
-  - name: Create group node_exporter
+  - name: Criar grupo node_exporter
     ansible.builtin.group:
       name: nodeexporter
       state: present
       system: true
 
-  - name: Create user node_exporter
+  - name: Criar usuario node_exporter
     ansible.builtin.user:
       name: nodeexporter
       shell: /bin/nologin
@@ -29,7 +29,7 @@
       src: /tmp/node_exporter-1.5.0.linux-amd64.tar.gz
       dest: /tmp
 
-  - name: move node exporter to /usr/local/bin
+  - name: mover node exporter para /usr/local/bin
     copy:
       src: /tmp/node_exporter-1.5.0.linux-amd64/node_exporter
       dest: /usr/local/bin/node_exporter
@@ -38,7 +38,7 @@
       group: nodeexporter
       mode: 0755
 
-  - name: install unit file to systemd
+  - name: instale o arquivo unit no systemd
     template:
       src: service_systemd/node_exporter.service
       dest: /etc/systemd/system/node_exporter.service
@@ -46,7 +46,7 @@
       group: nodeexporter
       mode: 0600
 
-  - name: configure systemd to use service
+  - name: configurar o systemd para usar o serviço
     systemd:
       daemon_reload: yes
       enabled: yes
